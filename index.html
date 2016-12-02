@@ -104,7 +104,7 @@
   // Heatmap data: 500 Points
   function getPoints() {
     fetch("apts.txt").then(function(response) {
-      console.log(response);
+      console.log(response.blob());
     });
     return [
       new google.maps.LatLng(37.782551, -122.445368),
