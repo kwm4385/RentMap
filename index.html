@@ -48,13 +48,14 @@
     <button onclick="changeOpacity()">Change opacity</button>
 </div>
 <div id="map"></div>
+
 <script>
   var map, heatmap;
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
-      center: {lat: 42.352846, lng: -71.149721},
+      center: {lat: 42.351359, lng: -71.076385},
       mapTypeId: 'satellite'
     });
 
@@ -118,7 +119,8 @@
     });
   }
 </script>
-<script async defer
+
+<script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDB_KnJ6FbSbluUR-5RMSAxDZMbrrMb1fk&libraries=visualization&callback=initMap">
 </script>
 </body>
