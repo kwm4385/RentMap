@@ -18,6 +18,8 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            font-family: 'Roboto', 'sans-serif';
+            font-size: 14px;
         }
         #floating-panel {
             position: absolute;
@@ -44,29 +46,28 @@
 
         #legend {
             position: absolute;
-            bottom: 0;
-            width: calc(100% - 5em);
+            top: 10px;
+            right: 20px;
+            width: 25%;
             background: white;
+            border: 1px solid #999;
         }
 
         #legendGradient {
-            width: calc(100% - 2px);
+            width: 100%;
             height: 15px;
-            border: 1px solid black;
         }
-
         .tick {
             position: absolute;
-            top: 15px;
+            top: calc(1em + 15px);
             width: 1px;
             height: 10px;
             background: black;
         }
-
         .label {
             position: absolute;
-            top: 25px;
-            width: 10px;
+            top: calc(1em + 25px);
+            width: 500px;
             text-align: center;
         }
     </style>
@@ -75,14 +76,16 @@
 <body>
 <div id="floating-panel">
     <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+    <button onclick="toggleNeighborhoods()">Toggle Neighborhoods</button>
 </div>
 <div id="map"></div>
 <div id="legend">
+    Price per bedroom ($) <br/>
     <div id="legendGradient"></div>
 </div>
 
 <script>
-  var map, heatmap, minWeight = 10000000, maxWeight = 0;
+  var map, heatmap, neighborhoods, minWeight = 10000000, maxWeight = 0;
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -93,6 +96,24 @@
 
     getPoints().then(function(points) {
       initHeatMap(points);
+
+      neighborhoods = new google.maps.FusionTablesLayer({
+        query: {
+          select: '\'Geocodable address\'',
+          from: '1BEwt-cBihxSl07k0PjsbLpMFc4dK8Bxe_gblshez'
+        },
+        styles: [{
+          polygonOptions: {
+            fillColor: '#ffffff',
+            fillOpacity: 0.000001,
+            strokeColor: "#ffff00"
+          }
+        }]
+      });
+
+      google.maps.event.addListener(neighborhoods, 'click', function(e) {
+        e.infoWindowHtml = "<strong>" + e.row['NAME'].value + "</strong><br>" + e.row['CITY'].value;
+      });
     });
   }
 
@@ -143,6 +164,10 @@
 
   function toggleHeatmap() {
     heatmap.setMap(heatmap.getMap() ? null : map);
+  }
+
+  function toggleNeighborhoods() {
+    neighborhoods.setMap(neighborhoods.getMap() ? null : map);
   }
 
   function getPoints() {
