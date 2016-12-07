@@ -2,18 +2,15 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Heatmaps</title>
+    <title>Boston Rent Prices</title>
     <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
         #map {
             height: 100%;
         }
-        /* Optional: Makes the sample page fill the window. */
         html, body {
             height: 100%;
             margin: 0;
@@ -43,7 +40,6 @@
             top: 10px;
             z-index: 5;
         }
-
         #legend {
             position: absolute;
             top: 10px;
@@ -52,22 +48,21 @@
             background: white;
             border: 1px solid #999;
         }
-
         #legendGradient {
             width: 100%;
-            height: 15px;
+            height: 1em;
+            margin-bottom: 2em;
         }
         .tick {
             position: absolute;
-            top: calc(1em + 15px);
+            top: 2em;
             width: 1px;
-            height: 10px;
+            height: 0.5em;
             background: black;
         }
         .label {
             position: absolute;
-            top: calc(1em + 25px);
-            width: 500px;
+            top: 2.5em;
             text-align: center;
         }
     </style>
@@ -155,11 +150,11 @@
 
     var legendWidth = $('#legendGradient').outerWidth();
 
-    $('#legend').append($('<div class="tick">')).css('left', '0');
-    $('#legend').append($('<div class="label">').css('left', '0').html(minWeight));
+    $('#legend').append($('<div class="tick">'));
+    $('#legend').append($('<div class="label">').html(minWeight));
 
-    $('#legend').append($('<div class="tick">')).css('right', '0');
-    $('#legend').append($('<div>').css('right', '0').html(maxWeight));
+    $('#legend').append($('<div class="tick">'));
+    $('#legend').append($('<div class="label">').html(maxWeight));
   }
 
   function toggleHeatmap() {
