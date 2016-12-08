@@ -106,6 +106,7 @@
       center: {lat: 42.351359, lng: -71.076385},
       mapTypeId: 'hybrid'
     });
+    map.setOptions({zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
 
     getPoints().then(function(points) {
       initHeatMap(points);
