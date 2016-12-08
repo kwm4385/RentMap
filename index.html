@@ -24,12 +24,11 @@
             left: 25%;
             z-index: 5;
             background-color: #fff;
-            padding: 5px;
             border: 1px solid #999;
             text-align: center;
             font-family: 'Roboto','sans-serif';
             line-height: 30px;
-            padding-left: 10px;
+            padding: 5px 5px 5px 10px;
         }
         #floating-panel {
             background-color: #fff;
@@ -64,6 +63,24 @@
             position: absolute;
             top: 2.5em;
             text-align: center;
+        }
+        .min {
+            left: 0;
+        }
+        .max {
+            right: 0;
+        }
+        .first {
+            left: 33%;
+        }
+        .first-label {
+            left: calc(33% - 1.5rem);
+        }
+        .second {
+            left: 66%;
+        }
+        .second-label  {
+            left: calc(66% - 1.5rem);
         }
     </style>
 </head>
@@ -101,7 +118,7 @@
         styles: [{
           polygonOptions: {
             fillColor: '#ffffff',
-            fillOpacity: 0.1,
+            fillOpacity: 0.01,
             strokeColor: "#ffff00"
           }
         }]
@@ -137,7 +154,8 @@
       data: points,
       map: map,
       radius: 35,
-      gradient: gradient
+      gradient: gradient,
+      dissapating: true
     });
 
     var gradientCss = '(left';
@@ -151,11 +169,17 @@
     $('#legendGradient').css('background', '-o-linear-gradient' + gradientCss);
     $('#legendGradient').css('background', 'linear-gradient' + gradientCss);
 
-    $('#legend').append($('<div class="tick">'));
-    $('#legend').append($('<div class="label">').html(minWeight));
+    $('#legend').append($('<div class="tick min">'));
+    $('#legend').append($('<div class="label min">').html(minWeight));
 
-    $('#legend').append($('<div class="tick">'));
-    $('#legend').append($('<div class="label">').html(maxWeight));
+    $('#legend').append($('<div class="tick first">'));
+    $('#legend').append($('<div class="label first-label">').html(maxWeight / 3));
+
+    $('#legend').append($('<div class="tick second">'));
+    $('#legend').append($('<div class="label second-label">').html((maxWeight / 3) * 2));
+
+    $('#legend').append($('<div class="tick max">'));
+    $('#legend').append($('<div class="label max">').html(maxWeight));
   }
 
   function toggleHeatmap() {
