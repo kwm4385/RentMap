@@ -155,9 +155,17 @@
       map: map,
       radius: 35,
       gradient: gradient,
-      dissapating: true
+      dissipating: true
     });
 
+    renderLegend();
+
+//    map.addListener('zoom_changed', function() {
+//      renderLegend();
+//    });
+  }
+
+  function renderLegend() {
     var gradientCss = '(left';
     for (var i = 0; i < heatmap.get('gradient').length; ++i) {
       gradientCss += ', ' + heatmap.get('gradient')[i];
