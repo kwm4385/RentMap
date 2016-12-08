@@ -72,6 +72,7 @@
 <div id="floating-panel">
     <button onclick="toggleHeatmap()">Toggle Heatmap</button>
     <button onclick="toggleNeighborhoods()">Toggle Neighborhoods</button>
+    <button onclick="toggleTransit()">Toggle Transit</button>
 </div>
 <div id="map"></div>
 <div id="legend">
@@ -80,13 +81,13 @@
 </div>
 
 <script>
-  var map, heatmap, neighborhoods, minWeight = 10000000, maxWeight = 0;
+  var map, heatmap, neighborhoods, transit, minWeight = 10000000, maxWeight = 0;
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 13,
+      zoom: 14,
       center: {lat: 42.351359, lng: -71.076385},
-      mapTypeId: 'satellite'
+      mapTypeId: 'hybrid'
     });
 
     getPoints().then(function(points) {
@@ -100,15 +101,17 @@
         styles: [{
           polygonOptions: {
             fillColor: '#ffffff',
-            fillOpacity: 0.000001,
+            fillOpacity: 0.1,
             strokeColor: "#ffff00"
           }
         }]
       });
-
       google.maps.event.addListener(neighborhoods, 'click', function(e) {
         e.infoWindowHtml = "<strong>" + e.row['NAME'].value + "</strong><br>" + e.row['CITY'].value;
       });
+
+      transit = new google.maps.TransitLayer();
+      transit.setMap(map);
     });
   }
 
@@ -148,8 +151,6 @@
     $('#legendGradient').css('background', '-o-linear-gradient' + gradientCss);
     $('#legendGradient').css('background', 'linear-gradient' + gradientCss);
 
-    var legendWidth = $('#legendGradient').outerWidth();
-
     $('#legend').append($('<div class="tick">'));
     $('#legend').append($('<div class="label">').html(minWeight));
 
@@ -163,6 +164,10 @@
 
   function toggleNeighborhoods() {
     neighborhoods.setMap(neighborhoods.getMap() ? null : map);
+  }
+
+  function toggleTransit() {
+      transit.setMap(transit.getMap() ? null : map);
   }
 
   function getPoints() {
